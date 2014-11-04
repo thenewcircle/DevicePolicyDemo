@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
@@ -17,9 +18,14 @@ public class DevicePolicyDemoActivity extends Activity implements
 		OnCheckedChangeListener {
 	static final String TAG = "DevicePolicyDemoActivity";
 	static final int ACTIVATION_REQUEST = 47; // identifies our request id
-	DevicePolicyManager devicePolicyManager;
+    private static final int MIN_PW_LEN = 6;
+    private static final int MIN_PW_NUMERIC = 1;
+
+    DevicePolicyManager devicePolicyManager;
 	ComponentName demoDeviceAdmin;
 	ToggleButton toggleButton;
+    Button mLock;
+    Button mReset;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -34,9 +40,29 @@ public class DevicePolicyDemoActivity extends Activity implements
 		// Initialize Device Policy Manager service and our receiver class
 		devicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 		demoDeviceAdmin = new ComponentName(this, DemoDeviceAdminReceiver.class);
+
+		mLock = (Button)findViewById(R.id.button_lock_device);
+		mReset = (Button)findViewById(R.id.button_reset_device);
+
+		if (devicePolicyManager.isAdminActive(demoDeviceAdmin)) {
+		    toggleButton.setChecked(true);
+		    toggleButton.setEnabled(false);
+            mLock.setEnabled(true);
+            mReset.setEnabled(true);
+        }
 	}
 
-	/**
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (devicePolicyManager.isAdminActive(demoDeviceAdmin)) {
+            toggleButton.setChecked(true);
+            toggleButton.setEnabled(false);
+            verifyGoodPassword(false);
+        }
+    }
+
+    /**
 	 * Called when a button is clicked on. We have Lock Device and Reset Device
 	 * buttons that could invoke this method.
 	 */
@@ -89,6 +115,7 @@ public class DevicePolicyDemoActivity extends Activity implements
 			if (resultCode == Activity.RESULT_OK) {
 				Log.i(TAG, "Administration enabled!");
 				toggleButton.setChecked(true);
+				verifyGoodPassword(true);
 			} else {
 				Log.i(TAG, "Administration enable FAILED!");
 				toggleButton.setChecked(false);
@@ -98,4 +125,26 @@ public class DevicePolicyDemoActivity extends Activity implements
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
+    private void verifyGoodPassword(boolean forcePwChange) {
+
+        devicePolicyManager.setPasswordMinimumLength(demoDeviceAdmin, MIN_PW_LEN);
+        devicePolicyManager.setPasswordMinimumNumeric(demoDeviceAdmin, MIN_PW_NUMERIC);
+        devicePolicyManager.setPasswordQuality(demoDeviceAdmin, DevicePolicyManager.PASSWORD_QUALITY_ALPHANUMERIC);
+        if (devicePolicyManager.isActivePasswordSufficient()) {
+            Log.d(TAG, "Password is good");
+            mLock.setEnabled(true);
+            mReset.setEnabled(true);
+        } else {
+            Log.d(TAG, "Password is not good, force user to set it");
+            if (forcePwChange) {
+                Intent pwChange = new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD);
+                startActivity(pwChange);
+            } else {
+                Toast.makeText(this, R.string.invalid_pw, Toast.LENGTH_LONG).show();
+                toggleButton.setChecked(false);
+                mReset.setEnabled(false);
+                mLock.setEnabled(false);
+            }
+        }
+    }
 }
