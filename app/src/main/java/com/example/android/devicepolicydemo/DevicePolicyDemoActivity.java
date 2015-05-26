@@ -31,8 +31,8 @@ public class DevicePolicyDemoActivity extends Activity {
         toggleButton = (Button) findViewById(R.id.toggle_device_admin);
 
         // Initialize Device Policy Manager service and our receiver class
-        devicePolicyManager =
-                (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+        devicePolicyManager = (DevicePolicyManager) getSystemService(
+                Context.DEVICE_POLICY_SERVICE);
         demoDeviceAdmin = new ComponentName(this, DemoDeviceAdminReceiver.class);
     }
 
