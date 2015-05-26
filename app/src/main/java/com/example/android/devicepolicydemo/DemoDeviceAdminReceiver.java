@@ -22,6 +22,7 @@ public class DemoDeviceAdminReceiver extends DeviceAdminReceiver {
 		Toast.makeText(context, R.string.device_admin_enabled,
 				Toast.LENGTH_LONG).show();
 		Log.d(TAG, "onEnabled");
+
 	}
 
 	/** Called when this application is no longer the device admin. */

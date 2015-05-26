@@ -120,6 +120,11 @@ public class DevicePolicyDemoActivity extends Activity {
             //Enforce minimum password restrictions
             devicePolicyManager.setPasswordQuality(demoDeviceAdmin,
                     DevicePolicyManager.PASSWORD_QUALITY_SOMETHING);
+            if (devicePolicyManager.isActivePasswordSufficient()) {
+                Toast.makeText(this, R.string.device_password_ok,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             //Launch the activity to set a new password
             Intent passwordIntent =
