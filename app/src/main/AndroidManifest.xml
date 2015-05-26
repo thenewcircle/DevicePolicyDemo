@@ -16,21 +16,8 @@
             </intent-filter>
         </activity>
 
-        <!-- This is where we register our receiver -->
-        <receiver
-            android:name=".DemoDeviceAdminReceiver"
-            android:permission="android.permission.BIND_DEVICE_ADMIN" >
-            <intent-filter>
+        <!-- TODO: Add receiver element for our device admin receiver-->
 
-                <!-- This action is required -->
-                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
-            </intent-filter>
-
-            <!-- This is required this receiver to become device admin component. -->
-            <meta-data
-                android:name="android.app.device_admin"
-                android:resource="@xml/device_admin" />
-        </receiver>
     </application>
 
 </manifest>

@@ -56,14 +56,7 @@ public class DevicePolicyDemoActivity extends Activity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.toggle_device_admin:
-                // Activate device administration
-                Intent intent = new Intent(
-                        DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN,
-                        demoDeviceAdmin);
-                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,
-                        "Your boss told you to do this");
-                startActivityForResult(intent, ACTIVATION_REQUEST);
+                //TODO: Activate device administration
                 break;
             case R.id.button_lock_device:
                 lockDevice();
@@ -83,14 +76,7 @@ public class DevicePolicyDemoActivity extends Activity {
     private void lockDevice() {
         // We lock the screen
         Log.d(TAG, "Locking device now");
-        try {
-            devicePolicyManager.lockNow();
-            Toast.makeText(this, "Locking device...", Toast.LENGTH_LONG).show();
-        } catch (SecurityException e) {
-            //We are not the device owner application
-            Toast.makeText(this, R.string.device_admin_required,
-                    Toast.LENGTH_SHORT).show();
-        }
+        //TODO: Lock the device immediately
     }
 
     /**
@@ -98,16 +84,8 @@ public class DevicePolicyDemoActivity extends Activity {
      */
     private void wipeAndResetDevice() {
         // We reset the device - this will erase entire /data partition!
-        Log.d(TAG,
-                "Resetting and wiping device now");
-        try {
-            devicePolicyManager.wipeData(ACTIVATION_REQUEST);
-            Toast.makeText(this, "Wiping device...", Toast.LENGTH_LONG).show();
-        } catch (SecurityException e) {
-            //We are not the device owner application
-            Toast.makeText(this, R.string.device_admin_required,
-                    Toast.LENGTH_SHORT).show();
-        }
+        Log.d(TAG, "Resetting and wiping device now");
+        //TODO: Reset the device, after asking the user first…
     }
 
     /**
@@ -116,25 +94,7 @@ public class DevicePolicyDemoActivity extends Activity {
     private void setDevicePassword() {
         //We ask the user to set their device password
         Log.d(TAG, "Enforcing device lock password");
-        try {
-            //Enforce minimum password restrictions
-            devicePolicyManager.setPasswordQuality(demoDeviceAdmin,
-                    DevicePolicyManager.PASSWORD_QUALITY_SOMETHING);
-            if (devicePolicyManager.isActivePasswordSufficient()) {
-                Toast.makeText(this, R.string.device_password_ok,
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            //Launch the activity to set a new password
-            Intent passwordIntent =
-                    new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD);
-            startActivity(passwordIntent);
-        } catch (SecurityException e) {
-            //We are not the device owner application
-            Toast.makeText(this, R.string.device_admin_required,
-                    Toast.LENGTH_SHORT).show();
-        }
+        //TODO: Enforce password quality and set new password
     }
 
     /**
