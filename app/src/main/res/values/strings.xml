@@ -9,6 +9,8 @@
     <string name="device_password_ok">Current Password is Sufficient</string>
     <string name="lock_device">Lock Device</string>
     <string name="reset_device">Reset Device</string>
+    <string name="reset_title">Factory Reset Device</string>
+    <string name="reset_message">Are you sure? You will lose everything!</string>
     <string name="device_admin_enabled">Device Admin Enabled</string>
     <string name="device_admin_disabled">Device Admin Disabled</string>
     <string name="device_password_changed">Password Successfully Changed</string>
