@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class DevicePolicyDemoActivity extends Activity {
     static final String TAG = DevicePolicyDemoActivity.class.getSimpleName();
@@ -27,12 +26,11 @@ public class DevicePolicyDemoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        instructions = (TextView) findViewById(R.id.instructions);
-        toggleButton = (Button) findViewById(R.id.toggle_device_admin);
+        instructions = findViewById(R.id.instructions);
+        toggleButton = findViewById(R.id.toggle_device_admin);
 
         // Initialize Device Policy Manager service and our receiver class
-        devicePolicyManager = (DevicePolicyManager) getSystemService(
-                Context.DEVICE_POLICY_SERVICE);
+        devicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
         demoDeviceAdmin = new ComponentName(this, DemoDeviceAdminReceiver.class);
     }
 

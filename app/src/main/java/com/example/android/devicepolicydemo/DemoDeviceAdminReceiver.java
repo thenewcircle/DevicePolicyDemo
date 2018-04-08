@@ -13,9 +13,9 @@ import android.widget.Toast;
  * method onEnabled().
  */
 public class DemoDeviceAdminReceiver extends DeviceAdminReceiver {
-	static final String TAG = "DemoDeviceAdminReceiver";
+    static final String TAG = "DemoDeviceAdminReceiver";
 
-	//TODO: Override onEnabled(), onDisabled()
+    //TODO: Override onEnabled(), onDisabled()
 
     //TODO: Override onPasswordChanged(), onPasswordFailed(), onPasswordSucceeded()
 
